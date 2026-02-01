@@ -17,6 +17,12 @@ def main():
     except json.JSONDecodeError:
         event_name = "parse_error"
 
+    # Log to file for debugging
+    with open("/tmp/hook-debug.log", "a") as f:
+        f.write(f"Event: {event_name}\n")
+        f.write(f"Input: {stdin_data[:500]}\n")
+        f.write("-" * 50 + "\n")
+
     # Output JSON with systemMessage for user display
     output = {
         "systemMessage": f"[Hook] Event: {event_name}"
