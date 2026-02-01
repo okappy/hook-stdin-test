@@ -10,12 +10,16 @@ def main():
     # Read all stdin
     stdin_data = sys.stdin.read()
 
-    # Truncate for display
-    display_data = stdin_data[:200] + "..." if len(stdin_data) > 200 else stdin_data
+    # Parse input JSON to extract event name
+    try:
+        input_json = json.loads(stdin_data)
+        event_name = input_json.get("hook_event_name", "unknown")
+    except json.JSONDecodeError:
+        event_name = "parse_error"
 
     # Output JSON with systemMessage for user display
     output = {
-        "systemMessage": f"[Hook] Received: {display_data}"
+        "systemMessage": f"[Hook] Event: {event_name}"
     }
     print(json.dumps(output))
 
